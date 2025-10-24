@@ -12,6 +12,21 @@ document.addEventListener("DOMContentLoaded", function () {
   var registerForm = document.getElementById("registerForm");
   var loadingIndicator = document.querySelector(".loading-indicator");
   var isSandiego = organizationId == "66bf6a0dcdae5300148e3a2c" || organizationId == "6713eacd00dcfc85b65c206a";
+  var isIrvine = window.location.href.includes('/irvine');
+
+  // Initialize Google auth if isIrvine
+  if (isIrvine) {
+    initializeGoogleAuth();
+    // Use safe renderer which waits for the client library to be available
+    window.renderGoogleButtonSafe('google-signin-button', {
+      theme: 'outline',
+      size: 'large',
+      type: 'standard',
+      text: 'signup_with',
+      shape: 'rectangular',
+      logo_alignment: 'left'
+    });
+  }
 
   if (courseId) {
     populateCourseInfoCard(courseId, token);

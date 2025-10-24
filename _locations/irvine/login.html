@@ -1,0 +1,104 @@
+---
+layout: locationdefault
+locale: en
+permalink: /irvine/login/
+---
+
+<section class="wrapper bg-light">
+  <div class="container pt-8 pt-md-12 pb-8 pb-md-8">
+    <div class="row gx-lg-8 gx-xl-0 gy-10 align-items-center">
+      <div class="col-lg-6 col-xl-5 position-relative d-none d-lg-block">
+        <figure class="ps-xxl-10"><img class="img-fluid" src="/assets/img/illustrations/3d5.png"
+            srcset="/assets/img/illustrations/3d5@2x.png 2x" alt="" /></figure>
+      </div>
+      <div class="col-lg-6 col-xl-5 offset-xl-1 text-center">
+        <h2 class="display-2 mb-3">{{ site.data.login[page.locale].login.header }}</h2>
+
+        <!-- Google Sign-In Button -->
+        <div id="google-signin-button" class="mb-4"></div>
+        
+        <div class="text-center mb-4">
+          <h5>- or -</h5>
+        </div>
+
+        <p class="mb-4">Email refers to student's email you used to register. Your username can be found in the email sent when you created your account.</p>
+
+        <form id="loginForm" class="contact-form needs-validation" novalidate>
+          <div class="messages"></div>
+          <div class="form-floating mb-4">
+            <input id="userinput" type="text" name="userinput" class="form-control"
+              placeholder="Username or Email" required="required" data-error="Valid username or email is required.">
+            <label for="userinput">{{ site.data.login[page.locale].login.userInput }}</label>
+            <div class="invalid-feedback">
+              {{ site.data.login[page.locale].login.errorEmail }}
+            </div>
+          </div>
+          <div class="form-floating mb-4">
+            <input id="loginPassword" type="password" name="loginPassword" class="form-control"
+              placeholder="Password" required="required" data-error="Password is required.">
+            <label for="loginPassword">{{ site.data.login[page.locale].login.password }}</label>
+            <div class="invalid-feedback">
+              {{ site.data.login[page.locale].login.errorPassword }}
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary rounded-pill btn-send mb-3">
+            {{ site.data.login[page.locale].login.login }}
+          </button>
+          <!-- Loading indicator -->
+          <div class="loading-indicator" style="display: none;">
+            {{ site.data.login[page.locale].login.loading }}
+          </div>
+        </form>
+        <!-- /form -->
+      </div>
+      <!--/column -->
+    </div>
+    <!--/.row -->
+  </div>
+  <!-- /.container -->
+</section>
+<!-- /section -->
+
+<!-- Modal -->
+<div id="confirmModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Login Successful</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" role="alert">
+          Login successful!
+        </div>
+        <p class="text-warning"><strong>Important:</strong> Please note that the registration process is not complete until you complete the payment on the next page.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmRedirect">I Understand, Continue to Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="/js/googleAuth.js"></script>
+<script src="/js/login.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Google Auth
+    initializeGoogleAuth();
+    
+    // Render the Google button
+    window.renderGoogleButtonSafe('google-signin-button', {
+        theme: 'outline',
+        size: 'large',
+        type: 'standard',
+        text: 'signin_with',
+        shape: 'rectangular',
+        logo_alignment: 'left'
+    });
+});</script>

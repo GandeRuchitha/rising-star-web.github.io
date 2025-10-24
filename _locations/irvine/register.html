@@ -1,54 +1,22 @@
 ---
-layout: default
+layout: locationdefault
+locale: en
+permalink: /irvine/register/
 ---
+
 <section class="wrapper bg-light">
   <div class="container pt-8 pt-md-12 pb-8 pb-md-8">
     <div class="row justify-content-center">
-      <!--/column -->
       <div class="col-lg-6 col-xl-5 offset-xl-1 text-center">
-        <!-- Course Info Card -->
-        <div class="card shadow-lg mb-5">
-          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">{% if site.data.register[page.locale].register.courseInfo %}{{
-              site.data.register[page.locale].register.courseInfo }}{% else %}Course Information{% endif %}</h5>
-            <button id="toggleButton" class="btn btn-sm btn-primary text-white" type="button" data-bs-toggle="collapse"
-              data-bs-target="#courseInfoContent" aria-expanded="true" aria-controls="courseInfoContent">
-              <span id="toggleArrow">&#9650;</span> <!-- Default is Up -->
-            </button>
-          </div>
-          <div class="collapse show" id="courseInfoContent">
-            <div class="card-body text-start">
-              <div class="mb-3 row">
-                <div class="col-5 text-start">
-                  <strong>{% if site.data.register[page.locale].register.courseName %}{{
-                    site.data.register[page.locale].register.courseName }}{% else %}Course{% endif %}:</strong>
-                </div>
-                <div class="col-7 text-start">
-                  <span id="registerCourseName">-</span>
-                </div>
-              </div>
-              <div class="mb-3 row">
-                <div class="col-5 text-start">
-                  <strong>{% if site.data.register[page.locale].register.courseDate %}{{
-                    site.data.register[page.locale].register.courseDate }}{% else %}Dates{% endif %}:</strong>
-                </div>
-                <div class="col-7 text-start">
-                  <span id="registerCourseDates">-</span>
-                </div>
-              </div>
-              <div class="mb-3 row d-none" id="priceContainer">
-                <div class="col-5 text-start">
-                  <strong>{% if site.data.register[page.locale].register.price %}{{
-                    site.data.register[page.locale].register.price }}{% else %}Price{% endif %}:</strong>
-                </div>
-                <div class="col-7 text-start">
-                  <span id="registerCoursePrice">-</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
         <h2 class="display-2 mb-3">{{ site.data.register[page.locale].register.header }}</h2>
+
+        <!-- Google Sign-In Button -->
+        <div id="google-signin-button" class="mb-4"></div>
+        
+        <div class="text-center mb-4">
+          <h5>- or -</h5>
+        </div>
+
         <form id="registerForm" class="needs-validation" novalidate>
           <div class="messages"></div>
           <div class="row gx-2">
@@ -64,9 +32,14 @@ layout: default
             </div>
           </div>
           <div class="form-floating mb-4">
-            <input type="email" name="email" class="form-control"
-              placeholder="{{ site.data.register[page.locale].register.email }}" required>
-            <label for="email">{{ site.data.register[page.locale].register.email }}</label>
+            <input type="email" name="studentEmail" class="form-control"
+              placeholder="{{ site.data.register[page.locale].register.studentEmail }}" required>
+            <label for="studentEmail">{{ site.data.register[page.locale].register.studentEmail }}</label>
+          </div>
+          <div class="form-floating mb-4">
+            <input type="email" name="parentEmail" class="form-control"
+              placeholder="{{ site.data.register[page.locale].register.parentEmail }}" required>
+            <label for="parentEmail">{{ site.data.register[page.locale].register.parentEmail }}</label>
           </div>
           <div class="form-floating mb-4">
             <input type="password" name="password" class="form-control"
@@ -78,7 +51,6 @@ layout: default
               placeholder="{{ site.data.register[page.locale].register.phone }}" required>
             <label for="phone">{{ site.data.register[page.locale].register.phone }}</label>
           </div>
-
           <div class="form-floating mb-4">
             <select name="grade" class="form-select" required>
               <option value="" selected disabled>{{ site.data.register[page.locale].register.grade }}</option>
@@ -109,42 +81,60 @@ layout: default
           <div class="loading-indicator" style="display: none;">
             {{ site.data.register[page.locale].register.loading }}
           </div>
-          <div id="google-signin-button" class="w-100 mb-3"></div>
         </form>
         <!-- /form -->
       </div>
-      <!--/column -->
     </div>
     <!--/.row -->
   </div>
   <!-- /.container -->
 </section>
 <!-- /section -->
-<!-- Add FontAwesome for the toggle icon -->
-<!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-  integrity="sha512-dyZtVXnN4E+YkquJjF4ZnXqZEO8UN2eb4aG0ul7u1m4xTUMTXtdh1YzGpCM5yZsm+8FZ2ljbJ7E4MxJ5+5lPpg=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<div id="confirmModal" class="modal fade" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Registration Form Saved</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-success" role="alert">
+          Your registration form has been saved successfully!
+        </div>
+        <p class="text-warning"><strong>Important:</strong> Please note that your registration is not complete until you
+          complete the payment on the next page.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="confirmRedirect">I Understand, Continue to Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script src="/js/googleAuth.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+  integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="/js/register.js"></script>
 
-
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const toggleArrow = document.getElementById('toggleArrow');
-    const collapseEl = document.getElementById('courseInfoContent');
-
-    collapseEl.addEventListener('show.bs.collapse', function () {
-      toggleArrow.innerHTML = '&#9650;'; // ▲
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Google Auth
+    initializeGoogleAuth();
+    
+    // Render the Google button
+    window.renderGoogleButtonSafe('google-signin-button', {
+        theme: 'outline',
+        size: 'large',
+        type: 'standard',
+        text: 'signup_with',
+        shape: 'rectangular',
+        logo_alignment: 'left'
     });
-
-    collapseEl.addEventListener('hide.bs.collapse', function () {
-      toggleArrow.innerHTML = '&#9660;'; // ▼
-    });
-  });
-</script>
+});</script>

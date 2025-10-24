@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const organizationId = params.get("organizationId");
   isSandiego = organizationId == "66bf6a0dcdae5300148e3a2c" || organizationId == "6713eacd00dcfc85b65c206a";
-
+  const isIrvine = window.location.href.includes('/irvine');
+  
     // Check for 1v1 private class special case
     if (courseId === "1v1" && isSandiego) {
       // Handle 1v1 private class directly without API call
@@ -124,8 +125,8 @@ function updatePageContent(course, courseId, accountId, token) {
   "&accountId=" + accountId + 
   "&token=" + token + 
   "&organizationId=" + organizationId;
-  const link = (chinese ? "/cn" : "") + (isSandiego ? "/sandiego/register/?" : "/register.html?") + queryParams;
-  const loginLink = (chinese ? "/cn" : "") + (isSandiego ? "/sandiego/login/?" : "/login.html?") + queryParams;
+  const link = (chinese ? "/cn" : "") + (isSandiego ? "/sandiego/register/?" : (isIrvine ? "/irvine/register/?" : "/register.html?")) + queryParams;
+  const loginLink = (chinese ? "/cn" : "") + (isSandiego ? "/sandiego/login/?" : (isIrvine ? "/irvine/login/?" : "/login.html?")) + queryParams;
   document.getElementById("registerLink").href = link;
   document.getElementById("loginLink").href = loginLink;
 

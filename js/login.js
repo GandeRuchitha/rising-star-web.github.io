@@ -1,18 +1,35 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const baseUrl = "https://backend4.sharemyworks.com/api/";
+  const baseUrl = "https://backend4.sharemyworks.com/api/";
     //const baseUrl = 'http://localhost:3000/api/'
-    var loginForm = document.getElementById("loginForm");
-    var loadingIndicator = document.querySelector(".loading-indicator");
+  var loginForm = document.getElementById("loginForm");
+  var loadingIndicator = document.querySelector(".loading-indicator");
 
-    var urlParams = new URLSearchParams(window.location.search);
-    var courseId = urlParams.get("courseId");
-    var accountId = urlParams.get("accountId");
-    var token = urlParams.get("token");
-    var price = urlParams.get("price");
-    var chinese = window.location.href.includes("cn");
-    var organizationId = urlParams.get("organizationId");
+  var urlParams = new URLSearchParams(window.location.search);
+  var courseId = urlParams.get("courseId");
+  var accountId = urlParams.get("accountId");
+  var token = urlParams.get("token");
+  var price = urlParams.get("price");
+  var chinese = window.location.href.includes("cn");
+  var organizationId = urlParams.get("organizationId");
+  
+  const isSandiego = organizationId == "66bf6a0dcdae5300148e3a2c" || organizationId == "6713eacd00dcfc85b65c206a" || window.location.href.includes('/sandiego');
+  const isIrvine = window.location.href.includes('/irvine');
 
-    const isSandiego = organizationId == "66bf6a0dcdae5300148e3a2c" || organizationId == "6713eacd00dcfc85b65c206a" || window.location.href.includes('/sandiego');
+  // Initialize Google auth if Irvine
+  if (isIrvine) {
+      initializeGoogleAuth();
+      // render via safe helper
+      if (window.renderGoogleButtonSafe) {
+          window.renderGoogleButtonSafe('google-signin-button', {
+              theme: 'outline',
+              size: 'large',
+              type: 'standard',
+              text: 'continue_with',
+              shape: 'rectangular',
+              logo_alignment: 'left'
+          });
+      }
+  }
 
     if (courseId) {
         populateCourseInfoCard(courseId, token);
